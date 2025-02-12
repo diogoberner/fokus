@@ -1,4 +1,4 @@
-import countdownTimer from "./countdownTimer.js"
+import { countdownTimer } from "./countdownTimer.js"
 import updateUI from "./updateUI.js"
 
 const cardList = document.querySelector(".app__card-list")
