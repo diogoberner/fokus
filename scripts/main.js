@@ -1,21 +1,36 @@
+import countdownTimer from "./countdownTimer.js"
+import updateUI from "./updateUI.js"
+
 const cardList = document.querySelector(".app__card-list")
+let currentButton = document.querySelector(".app__card-button.active")
+let currentContext = currentButton.getAttribute("data-contexto")
+
+updateUI(currentContext)
 
 cardList.addEventListener("click", (e) => {
     if (!e.target.classList.contains("app__card-button")) {
         return
     }
 
-    const currentButton = e.target
-    if (!currentButton) return
-    const buttonAttribute = currentButton.getAttribute("data-contexto")
+    const newButton = e.target
+    const buttonAttribute = newButton.getAttribute("data-contexto")
 
-    const activeButton = document.querySelector("app__card-button.active")
+    if (currentContext === buttonAttribute) return
 
-    if (activeButton && activeButton !== currentButton) {
-        activeButton.classList.remove("active")
-        updateUI(buttonAttribute)
-    }
+    currentButton.classList.remove("active")
+    newButton.classList.add("active")
 
-    currentButton.classList.add("active")
+    currentButton = newButton
+    currentContext = buttonAttribute
 
+    updateUI(buttonAttribute)
 })
+
+const startPauseButton = document.getElementById("start-pause")
+const timerDiv = document.getElementById("timer")
+
+startPauseButton.addEventListener("click", (e) => {
+    timerDiv.textContent = ""
+    countdownTimer(25, timerDiv)
+})
+

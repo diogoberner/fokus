@@ -32,7 +32,6 @@ export default function updateUI(buttonAttribuute) {
     ]
 
     const currentContext = contexts.find((context) => context.type === buttonAttribuute)
-    console.log(currentContext.attribute)
 
     if (currentContext) {
         html.setAttribute("data-contexto", currentContext.attribute)
