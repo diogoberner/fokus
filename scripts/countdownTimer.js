@@ -1,14 +1,19 @@
 let interval
+let remainingTime = 0
 
-export function countdownTimer(time, div) {
+export function countdownTimer(minutes, seconds, div) {
     clearTimer()
 
-    const endTime = Date.now() + time * 60 * 1000
+    const endTime = remainingTime
+        ? Date.now() + remainingTime
+        : Date.now() + (minutes * 60 * 1000) + (seconds * 1000)
 
-    interval = setInterval(() => {
+    function updateTimer() {
         let diff = endTime - Date.now()
-        let minutes = Math.floor(diff / (1000 * 60))
-        let seconds = Math.floor((diff % (1000 * 60)) / 1000)
+        remainingTime = diff
+
+        let min = Math.floor(diff / (1000 * 60))
+        let sec = Math.floor((diff % (1000 * 60)) / 1000)
 
         // Se o tempo acabar, parar o timer
         if (diff <= 0) {
@@ -16,9 +21,11 @@ export function countdownTimer(time, div) {
             div.innerHTML = "00:00"
             return
         }
+        div.textContent = `${min < 10 ? '0' + min : min}:${sec < 10 ? '0' + sec : sec}`
+    }
 
-        div.textContent = `${minutes < 10 ? '0' + minutes : minutes}:${seconds < 10 ? '0' + seconds : seconds}`
-    }, 1000)
+    updateTimer()
+    interval = setInterval(updateTimer, 1000)
 }
 
 export function clearTimer() {

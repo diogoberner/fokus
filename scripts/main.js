@@ -1,36 +1,45 @@
-import { countdownTimer } from "./countdownTimer.js"
+import { countdownTimer, clearTimer } from "./countdownTimer.js"
+import toggleContext from "./toggleContext.js"
 import updateUI from "./updateUI.js"
 
 const cardList = document.querySelector(".app__card-list")
 let currentButton = document.querySelector(".app__card-button.active")
 let currentContext = currentButton.getAttribute("data-contexto")
+const currentButtonRef = { value: currentButton }
+const currentContextRef = { value: currentContext }
 
-updateUI(currentContext)
-
-cardList.addEventListener("click", (e) => {
-    if (!e.target.classList.contains("app__card-button")) {
-        return
-    }
-
-    const newButton = e.target
-    const buttonAttribute = newButton.getAttribute("data-contexto")
-
-    if (currentContext === buttonAttribute) return
-
-    currentButton.classList.remove("active")
-    newButton.classList.add("active")
-
-    currentButton = newButton
-    currentContext = buttonAttribute
-
-    updateUI(buttonAttribute)
-})
+updateUI(currentContextRef.value);
+toggleContext(cardList, currentButtonRef, currentContextRef)
 
 const startPauseButton = document.getElementById("start-pause")
 const timerDiv = document.getElementById("timer")
 
-startPauseButton.addEventListener("click", (e) => {
-    timerDiv.textContent = ""
-    countdownTimer(25, timerDiv)
+let isRunning = false
+let isPaused = false
+
+startPauseButton.addEventListener("click", () => {
+
+    if (isRunning) {
+        startPauseButton.querySelector("span").textContent = "Continuar"
+        clearTimer()
+        isPaused = true
+        isRunning = false
+        return
+    }
+
+    if (isPaused) {
+        countdownTimer(0, 0, timerDiv)
+        startPauseButton.querySelector("span").textContent = "Pausar"
+        isPaused = false
+        isRunning = true
+        return
+    }
+
+    startPauseButton.querySelector("span").textContent = "Pausar"
+    const currentTime = timerDiv.textContent
+    const [minutes, seconds] = currentTime.split(":").map(Number)
+    countdownTimer(minutes, seconds, timerDiv)
+    isRunning = true
+    isPaused = false
 })
 
