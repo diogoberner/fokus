@@ -31,3 +31,8 @@ export function countdownTimer(minutes, seconds, div) {
 export function clearTimer() {
     clearInterval(interval)
 }
+
+export function resetTimer() {
+    clearInterval(interval)
+    remainingTime = 0
+}
