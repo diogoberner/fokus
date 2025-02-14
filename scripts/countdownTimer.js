@@ -32,7 +32,6 @@ export function clearTimer() {
     clearInterval(interval)
 }
 
-export function resetTimer() {
-    clearInterval(interval)
+export function clearRemainingTime() {
     remainingTime = 0
 }

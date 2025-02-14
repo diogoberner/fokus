@@ -1,6 +1,5 @@
-import { clearTimer, resetTimer } from "./countdownTimer.js"
+import { resetTimer } from "./timerManager.js"
 import updateUI from "./updateUI.js"
-import { contexts } from "./contexts.js"
 
 export default function toggleContext(cardList, currentButtonRef, currentContextRef) {
 
@@ -22,7 +21,6 @@ export default function toggleContext(cardList, currentButtonRef, currentContext
 
 
         updateUI(buttonAttribute)
-        const timer = contexts.filter((context) => context.type === buttonAttribute)
         resetTimer()
     })
 

@@ -1,4 +1,4 @@
-import { clearTimer, countdownTimer } from "./countdownTimer.js"
+import { clearRemainingTime, clearTimer, countdownTimer } from "./countdownTimer.js"
 
 const startPauseButton = document.getElementById("start-pause")
 const timerDiv = document.getElementById("timer")
@@ -36,6 +36,7 @@ export const resetTimer = () => {
     timerText.textContent = "Começar"
     isPaused = false
     isRunning = false
+    clearRemainingTime()
 }
 
 export default function handleStartPauseContinue() {

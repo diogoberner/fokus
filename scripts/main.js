@@ -1,4 +1,3 @@
-import { countdownTimer, clearTimer } from "./countdownTimer.js"
 import handleStartPauseContinue from "./timerManager.js"
 import toggleContext from "./toggleContext.js"
 import updateUI from "./updateUI.js"
@@ -13,7 +12,6 @@ updateUI(currentContextRef.value);
 toggleContext(cardList, currentButtonRef, currentContextRef)
 
 const startPauseButton = document.getElementById("start-pause")
-
 
 startPauseButton.addEventListener("click", handleStartPauseContinue)
 
