@@ -6,6 +6,7 @@ const musicPause = new Audio("/sons/pause.mp3")
 const startPauseButton = document.getElementById("start-pause")
 const timerDiv = document.getElementById("timer")
 let timerText = startPauseButton.querySelector("span")
+let timerIcon = startPauseButton.querySelector(".app__card-primary-butto-icon")
 let isRunning = false
 let isPaused = false
 
@@ -25,7 +26,6 @@ const pauseTimer = () => {
     clearTimer()
     isPaused = true
     isRunning = false
-    return
 }
 
 const continueTimer = () => {
@@ -34,7 +34,17 @@ const continueTimer = () => {
     musicStart.play()
     isPaused = false
     isRunning = true
-    return
+}
+
+const changeTimerIcon = () => {
+    if (isRunning === false && isPaused === false) {
+        timerIcon.src = "/imagens/play_arrow.png"
+    }
+    else if (isPaused === false) {
+        timerIcon.src = "/imagens/pause.png"
+    } else {
+        timerIcon.src = "/imagens/play_arrow.png"
+    }
 }
 
 export const resetTimer = () => {
@@ -43,19 +53,21 @@ export const resetTimer = () => {
     isPaused = false
     isRunning = false
     clearRemainingTime()
+    changeTimerIcon()
 }
 
 export default function handleStartPauseContinue() {
     if (isRunning) {
         pauseTimer()
+        changeTimerIcon()
         return
     }
 
     if (isPaused) {
         continueTimer()
+        changeTimerIcon()
         return
     }
     startTimer()
+    changeTimerIcon()
 }
-
-
