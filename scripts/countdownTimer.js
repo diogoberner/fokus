@@ -1,3 +1,4 @@
+const musicEnd = new Audio("/sons/beep.mp3")
 let interval
 let remainingTime = 0
 
@@ -19,6 +20,7 @@ export function countdownTimer(minutes, seconds, div) {
         if (diff <= 0) {
             clearTimer()
             div.innerHTML = "00:00"
+            musicEnd.play()
             return
         }
         div.textContent = `${min < 10 ? '0' + min : min}:${sec < 10 ? '0' + sec : sec}`

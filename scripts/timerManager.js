@@ -1,5 +1,8 @@
 import { clearRemainingTime, clearTimer, countdownTimer } from "./countdownTimer.js"
 
+const musicStart = new Audio("/sons/play.wav")
+const musicPause = new Audio("/sons/pause.mp3")
+
 const startPauseButton = document.getElementById("start-pause")
 const timerDiv = document.getElementById("timer")
 let timerText = startPauseButton.querySelector("span")
@@ -8,6 +11,7 @@ let isPaused = false
 
 const startTimer = () => {
     timerText.textContent = "Pausar"
+    musicStart.play()
     const currentTime = timerDiv.textContent
     const [minutes, seconds] = currentTime.split(":").map(Number)
     countdownTimer(minutes, seconds, timerDiv)
@@ -17,6 +21,7 @@ const startTimer = () => {
 
 const pauseTimer = () => {
     timerText.textContent = "Continuar"
+    musicPause.play()
     clearTimer()
     isPaused = true
     isRunning = false
@@ -26,6 +31,7 @@ const pauseTimer = () => {
 const continueTimer = () => {
     countdownTimer(0, 0, timerDiv)
     timerText.textContent = "Pausar"
+    musicStart.play()
     isPaused = false
     isRunning = true
     return
