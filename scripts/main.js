@@ -15,3 +15,19 @@ const startPauseButton = document.getElementById("start-pause")
 
 startPauseButton.addEventListener("click", handleStartPauseContinue)
 
+const toggleMusicInput = document.getElementById("alternar-musica")
+const relaxingMusic = new Audio("./sons/luna-rise-part-one.mp3")
+relaxingMusic.loop = true
+
+toggleMusicInput.addEventListener("change", () => {
+    if (toggleMusicInput.checked) {
+        relaxingMusic.play()
+        return
+    }
+
+    if (!toggleMusicInput.checked) {
+        relaxingMusic.pause()
+        return
+    }
+})
+
