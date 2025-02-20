@@ -3,35 +3,14 @@ const addNewTaskButton = document.querySelector(".app__button--add-task")
 const taskForm = document.querySelector(".app__form-add-task")
 const taskDescription = taskForm.querySelector(".app__form-textarea")
 const tasksListDiv = document.querySelector(".app__section-task-list")
+const cancelTaskBtn = document.querySelector(".app__form-footer__button--cancel")
+const onGoingTaskDesc = document.querySelector(".app__section-active-task-description")
 
 let tasksList = JSON.parse(localStorage.getItem("tasks")) || []
 
-addNewTaskButton.addEventListener("click", () => {
-    taskForm.classList.toggle("hidden")
-})
-
-taskForm.addEventListener("submit", (e) => {
-    e.preventDefault()
-
-    const task = {
-        description: taskDescription.value
-    }
-    tasksList.push(task)
-    localStorage.setItem("tasks", JSON.stringify(tasksList))
-    insertTask(task, tasksListDiv)
-    taskDescription.value = ""
-    taskForm.classList.add("hidden");
-})
-
-const updateTaskList = (oldTaskDesc, newTaskDesc) => {
-    tasksList.forEach((task) => {
-        if (task.description === oldTaskDesc || task.description === null) {
-            task.description = newTaskDesc
-        }
-    })
+const updateTaskList = () => {
     localStorage.setItem("tasks", JSON.stringify(tasksList))
 }
-
 
 const createTask = (task) => {
     const taskLi = document.createElement("li")
@@ -51,12 +30,12 @@ const createTask = (task) => {
     taskBtn.classList.add("app_button-edit")
     taskBtn.onclick = () => {
         let oldTaskDesc = taskDesc.textContent
-        let newTaskDesc = prompt("Qual a nova descrição para a tarefa?")
-        if (newTaskDesc === null || newTaskDesc === "") {
+        let newTaskDesc = prompt("Qual a nova descrição para a tarefa?").trim()
+        if (!newTaskDesc || newTaskDesc.trim() === "") {
             alert("Você precisa escrever uma descrição.")
             return
         }
-        updateTaskList(oldTaskDesc, newTaskDesc)
+        editTask(oldTaskDesc, newTaskDesc)
         taskDesc.textContent = newTaskDesc
     }
 
@@ -73,6 +52,15 @@ const insertTask = (task, div) => {
     div.appendChild(taskElement)
 }
 
+const editTask = (oldTaskDesc, newTaskDesc) => {
+    tasksList.forEach((task) => {
+        if (task.description === oldTaskDesc || task.description === null) {
+            task.description = newTaskDesc
+        }
+    })
+    updateTaskList()
+}
+
 const showTasks = () => {
     tasksListDiv.innerHTML = ""
     tasksList.forEach((task) => {
@@ -80,13 +68,47 @@ const showTasks = () => {
     })
 }
 
-// tasksListDiv.addEventListener("click", (e) => {
-//     if (!e.target.closest(".app_button-edit")) {
-//         return
-//     }
+const cancelCreateTask = () => {
+    taskDescription.value = ""
+    taskForm.classList.add("hidden")
+}
 
-//     const taskLi = e.target.closest(".app__section-task-list-item")
-//     console.log(taskLi)
-// })
+addNewTaskButton.addEventListener("click", () => {
+    taskForm.classList.toggle("hidden")
+})
+
+cancelTaskBtn.addEventListener("click", cancelCreateTask)
+
+taskForm.addEventListener("submit", (e) => {
+    e.preventDefault()
+
+    const task = {
+        description: taskDescription.value
+    }
+    tasksList.push(task)
+    updateTaskList()
+    insertTask(task, tasksListDiv)
+    taskDescription.value = ""
+    taskForm.classList.add("hidden");
+})
+
+tasksListDiv.addEventListener("click", (e) => {
+    const taskLi = e.target.closest(".app__section-task-list-item")
+
+    const activeTask = tasksListDiv.querySelector(".app__section-task-list-item-active")
+    if (activeTask && activeTask !== taskLi) {
+        activeTask.classList.remove("app__section-task-list-item-active")
+    } else if (activeTask && activeTask === taskLi) {
+        activeTask.classList.remove("app__section-task-list-item-active")
+        onGoingTaskDesc.textContent = ""
+        return
+    }
+    const taskLiDesc = taskLi.querySelector(".app__section-task-list-item-description")
+    taskLi.classList.add("app__section-task-list-item-active")
+    addEventListener("FokusTimer", () => {
+        taskLi.classList.add("app__section-task-list-item-complete")
+    })
+    onGoingTaskDesc.textContent = taskLiDesc.textContent
+})
 
 showTasks()

@@ -21,6 +21,8 @@ export function countdownTimer(minutes, seconds, div) {
             clearTimer()
             div.innerHTML = "00:00"
             musicEnd.play()
+            const endTimeEvent = new CustomEvent("FokusTimer")
+            dispatchEvent(endTimeEvent)
             return
         }
         div.textContent = `${min < 10 ? '0' + min : min}:${sec < 10 ? '0' + sec : sec}`
