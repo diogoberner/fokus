@@ -25,11 +25,10 @@ taskForm.addEventListener("submit", (e) => {
 
 const updateTaskList = (oldTaskDesc, newTaskDesc) => {
     tasksList.forEach((task) => {
-        if (task.description === oldTaskDesc) {
+        if (task.description === oldTaskDesc || task.description === null) {
             task.description = newTaskDesc
         }
     })
-    console.log(tasksList)
     localStorage.setItem("tasks", JSON.stringify(tasksList))
 }
 
@@ -51,11 +50,14 @@ const createTask = (task) => {
     const taskBtn = document.createElement("button")
     taskBtn.classList.add("app_button-edit")
     taskBtn.onclick = () => {
-        const oldTaskDesc = taskDesc.textContent
-        const newTaskDesc = prompt("Qual a nova descrição para a tarefa?")
+        let oldTaskDesc = taskDesc.textContent
+        let newTaskDesc = prompt("Qual a nova descrição para a tarefa?")
+        if (newTaskDesc === null || newTaskDesc === "") {
+            alert("Você precisa escrever uma descrição.")
+            return
+        }
         updateTaskList(oldTaskDesc, newTaskDesc)
         taskDesc.textContent = newTaskDesc
-
     }
 
     const taskBtnImg = document.createElement("img")
@@ -78,17 +80,13 @@ const showTasks = () => {
     })
 }
 
-const editTask = () => {
+// tasksListDiv.addEventListener("click", (e) => {
+//     if (!e.target.closest(".app_button-edit")) {
+//         return
+//     }
 
-}
-
-tasksListDiv.addEventListener("click", (e) => {
-    if (!e.target.closest(".app_button-edit")) {
-        return
-    }
-
-    const taskLi = e.target.closest(".app__section-task-list-item")
-    console.log(taskLi)
-})
+//     const taskLi = e.target.closest(".app__section-task-list-item")
+//     console.log(taskLi)
+// })
 
 showTasks()
