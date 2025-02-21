@@ -25,7 +25,7 @@ export function countdownTimer(minutes, seconds, div) {
             musicEnd.play()
             const endTimeEvent = new CustomEvent("FokusTimer")
             if (getCurrentContext() === "foco") {
-                dispatchEvent(endTimeEvent)
+                document.dispatchEvent(endTimeEvent)
             }
             return
         }

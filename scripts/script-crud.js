@@ -15,6 +15,7 @@ const updateTaskList = () => {
 const createTask = (task) => {
     const taskLi = document.createElement("li")
     taskLi.classList.add("app__section-task-list-item")
+    taskLi.setAttribute("data-id", task.id)
 
     const taskSvg = document.createElement("svg")
     taskSvg.innerHTML = `
@@ -29,13 +30,12 @@ const createTask = (task) => {
     const taskBtn = document.createElement("button")
     taskBtn.classList.add("app_button-edit")
     taskBtn.onclick = () => {
-        let oldTaskDesc = taskDesc.textContent
         let newTaskDesc = prompt("Qual a nova descrição para a tarefa?").trim()
         if (!newTaskDesc || newTaskDesc.trim() === "") {
             alert("Você precisa escrever uma descrição.")
             return
         }
-        editTask(oldTaskDesc, newTaskDesc)
+        editTask(task.id, newTaskDesc)
         taskDesc.textContent = newTaskDesc
     }
 
@@ -52,12 +52,10 @@ const insertTask = (task, div) => {
     div.appendChild(taskElement)
 }
 
-const editTask = (oldTaskDesc, newTaskDesc) => {
-    tasksList.forEach((task) => {
-        if (task.description === oldTaskDesc || task.description === null) {
-            task.description = newTaskDesc
-        }
-    })
+const editTask = (taskId, newTaskDesc) => {
+    tasksList = tasksList.map(task =>
+        task.id === taskId ? { ...task, description: newTaskDesc } : task
+    )
     updateTaskList()
 }
 
@@ -83,7 +81,9 @@ taskForm.addEventListener("submit", (e) => {
     e.preventDefault()
 
     const task = {
-        description: taskDescription.value
+        id: Date.now(),
+        description: taskDescription.value,
+        completed: false
     }
     tasksList.push(task)
     updateTaskList()
@@ -94,21 +94,27 @@ taskForm.addEventListener("submit", (e) => {
 
 tasksListDiv.addEventListener("click", (e) => {
     const taskLi = e.target.closest(".app__section-task-list-item")
+    if (!taskLi) return
 
-    const activeTask = tasksListDiv.querySelector(".app__section-task-list-item-active")
+    let activeTask = tasksListDiv.querySelector(".app__section-task-list-item-active")
     if (activeTask && activeTask !== taskLi) {
         activeTask.classList.remove("app__section-task-list-item-active")
-    } else if (activeTask && activeTask === taskLi) {
+    } else if (activeTask === taskLi) {
         activeTask.classList.remove("app__section-task-list-item-active")
         onGoingTaskDesc.textContent = ""
         return
     }
+
     const taskLiDesc = taskLi.querySelector(".app__section-task-list-item-description")
     taskLi.classList.add("app__section-task-list-item-active")
-    addEventListener("FokusTimer", () => {
+    activeTask = taskLi
+    document.addEventListener("FokusTimer", () => {
+        console.log(activeTask)
         activeTask.style.pointerEvents = "none"
         activeTask.setAttribute("aria-disabled", "true")
         activeTask.classList.add("app__section-task-list-item-complete")
+        const id = activeTask.dataset.id
+        console.log(id)
         activeTask.classList.remove("app__section-task-list-item-active")
         onGoingTaskDesc.textContent = ""
         return
