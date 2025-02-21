@@ -5,7 +5,7 @@ export const contexts = [
         img: "/imagens/foco.png",
         text: `Otimize sua produtividade,<br>
             <strong class="app__title-strong">mergulhe no que importa.</strong>`,
-        timer: 25
+        timer: [0, 20]
     },
     {
         type: "short",
@@ -13,7 +13,7 @@ export const contexts = [
         img: "/imagens/descanso-curto.png",
         text: `Que tal dar uma respirada?<br>
             <strong class="app__title-strong">Faça uma pausa curta!</strong>`,
-        timer: 5
+        timer: [5, 0]
     },
     {
         type: "long",
@@ -21,6 +21,6 @@ export const contexts = [
         img: "/imagens/descanso-longo.png",
         text: `Hora de voltar à superfície.<br>
             <strong class="app__title-strong">Faça uma pausa longa.</strong>`,
-        timer: 15
+        timer: [15, 0]
     }
 ]

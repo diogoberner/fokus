@@ -106,7 +106,12 @@ tasksListDiv.addEventListener("click", (e) => {
     const taskLiDesc = taskLi.querySelector(".app__section-task-list-item-description")
     taskLi.classList.add("app__section-task-list-item-active")
     addEventListener("FokusTimer", () => {
-        taskLi.classList.add("app__section-task-list-item-complete")
+        activeTask.style.pointerEvents = "none"
+        activeTask.setAttribute("aria-disabled", "true")
+        activeTask.classList.add("app__section-task-list-item-complete")
+        activeTask.classList.remove("app__section-task-list-item-active")
+        onGoingTaskDesc.textContent = ""
+        return
     })
     onGoingTaskDesc.textContent = taskLiDesc.textContent
 })

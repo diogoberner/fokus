@@ -1,3 +1,5 @@
+import { getCurrentContext } from "./updateUI.js"
+
 const musicEnd = new Audio("/sons/beep.mp3")
 let interval
 let remainingTime = 0
@@ -22,7 +24,9 @@ export function countdownTimer(minutes, seconds, div) {
             div.innerHTML = "00:00"
             musicEnd.play()
             const endTimeEvent = new CustomEvent("FokusTimer")
-            dispatchEvent(endTimeEvent)
+            if (getCurrentContext() === "foco") {
+                dispatchEvent(endTimeEvent)
+            }
             return
         }
         div.textContent = `${min < 10 ? '0' + min : min}:${sec < 10 ? '0' + sec : sec}`
