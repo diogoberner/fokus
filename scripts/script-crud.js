@@ -15,6 +15,7 @@ const updateTaskList = () => {
 const createTask = (task) => {
     const taskLi = document.createElement("li")
     taskLi.classList.add("app__section-task-list-item")
+    if (task.completed === true) { taskLi.classList.add("app__section-task-list-item-complete") }
     taskLi.setAttribute("data-id", task.id)
 
     const taskSvg = document.createElement("svg")
@@ -75,6 +76,13 @@ addNewTaskButton.addEventListener("click", () => {
     taskForm.classList.toggle("hidden")
 })
 
+const updateCompletedTask = (id) => {
+    const newTasksList = tasksList.map((task) => task.id === id ? { ...task, completed: true } : task)
+    console.log(newTasksList)
+    tasksList = newTasksList
+    updateTaskList()
+}
+
 cancelTaskBtn.addEventListener("click", cancelCreateTask)
 
 taskForm.addEventListener("submit", (e) => {
@@ -113,10 +121,10 @@ tasksListDiv.addEventListener("click", (e) => {
         activeTask.style.pointerEvents = "none"
         activeTask.setAttribute("aria-disabled", "true")
         activeTask.classList.add("app__section-task-list-item-complete")
-        const id = activeTask.dataset.id
-        console.log(id)
         activeTask.classList.remove("app__section-task-list-item-active")
         onGoingTaskDesc.textContent = ""
+        const taskId = activeTask.dataset.id
+        updateCompletedTask(taskId)
         return
     })
     onGoingTaskDesc.textContent = taskLiDesc.textContent
