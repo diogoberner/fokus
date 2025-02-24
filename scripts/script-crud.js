@@ -1,10 +1,11 @@
-// Encontrar o botão de adicionar tarefa
 const addNewTaskButton = document.querySelector(".app__button--add-task")
 const taskForm = document.querySelector(".app__form-add-task")
 const taskDescription = taskForm.querySelector(".app__form-textarea")
 const tasksListDiv = document.querySelector(".app__section-task-list")
 const cancelTaskBtn = document.querySelector(".app__form-footer__button--cancel")
 const onGoingTaskDesc = document.querySelector(".app__section-active-task-description")
+const deleteAllTaskBtn = document.getElementById("btn-remover-todas")
+const deleteCompletedTasksBtn = document.getElementById("btn-remover-concluidas")
 
 let tasksList = JSON.parse(localStorage.getItem("tasks")) || []
 
@@ -15,7 +16,11 @@ const updateTaskList = () => {
 const createTask = (task) => {
     const taskLi = document.createElement("li")
     taskLi.classList.add("app__section-task-list-item")
-    if (task.completed === true) { taskLi.classList.add("app__section-task-list-item-complete") }
+    if (task.completed === true) {
+        taskLi.classList.add("app__section-task-list-item-complete")
+        taskLi.style.pointerEvents = "none"
+        taskLi.setAttribute("aria-disabled", "true")
+    }
     taskLi.setAttribute("data-id", task.id)
 
     const taskSvg = document.createElement("svg")
@@ -31,7 +36,7 @@ const createTask = (task) => {
     const taskBtn = document.createElement("button")
     taskBtn.classList.add("app_button-edit")
     taskBtn.onclick = () => {
-        let newTaskDesc = prompt("Qual a nova descrição para a tarefa?").trim()
+        let newTaskDesc = prompt("Qual a nova descrição para a tarefa?")
         if (!newTaskDesc || newTaskDesc.trim() === "") {
             alert("Você precisa escrever uma descrição.")
             return
@@ -77,11 +82,29 @@ addNewTaskButton.addEventListener("click", () => {
 })
 
 const updateCompletedTask = (id) => {
-    const newTasksList = tasksList.map((task) => task.id === id ? { ...task, completed: true } : task)
-    console.log(newTasksList)
+    const newTasksList = tasksList.map((task) => task.id === Number(id) ? { ...task, completed: true } : task)
     tasksList = newTasksList
     updateTaskList()
 }
+
+const deleteAllTasks = () => {
+    tasksListDiv.innerHTML = ""
+    tasksList = []
+    updateTaskList()
+}
+
+const deleteCompletedTasks = () => {
+    const completedTasks = document.querySelectorAll(".app__section-task-list-item-complete")
+    if (completedTasks.length === 0) return
+
+    tasksList = tasksList.filter((task) => !task.completed)
+    updateTaskList()
+    completedTasks.forEach((taskLi) => tasksListDiv.removeChild(taskLi))
+}
+
+deleteCompletedTasksBtn.addEventListener("click", deleteCompletedTasks)
+
+deleteAllTaskBtn.addEventListener("click", deleteAllTasks)
 
 cancelTaskBtn.addEventListener("click", cancelCreateTask)
 
