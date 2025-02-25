@@ -41,7 +41,7 @@ const createTask = (task) => {
 
 const editTask = (taskId, newTaskDesc) => {
     const newTasksList = tasksList.map(task =>
-        task.id === taskId ? { ...task, description: newTaskDesc } : task
+        task.id === Number(taskId) ? { ...task, description: newTaskDesc } : task
     )
     setTasksList(newTasksList)
 }
@@ -58,7 +58,7 @@ const showTasks = (div) => {
     })
 }
 
-const cancelCreateTask = () => {
+const cancelCreateTask = (taskForm, taskDescription) => {
     taskDescription.value = ""
     taskForm.classList.add("hidden")
 }
@@ -75,7 +75,6 @@ const deleteCompletedTasks = (div) => {
 
     const onGoingTasks = tasksList.filter((task) => !task.completed)
     setTasksList(onGoingTasks)
-    updateTaskList()
     completedTasks.forEach((taskLi) => div.removeChild(taskLi))
 }
 
