@@ -1,3 +1,4 @@
+import { resetTimer } from "./timerManager.js"
 import { getCurrentContext } from "./updateUI.js"
 
 const musicEnd = new Audio("/sons/beep.mp3")
@@ -27,6 +28,7 @@ export function countdownTimer(minutes, seconds, div) {
             if (getCurrentContext() === "foco") {
                 document.dispatchEvent(endTimeEvent)
             }
+            resetTimer()
             return
         }
         div.textContent = `${min < 10 ? '0' + min : min}:${sec < 10 ? '0' + sec : sec}`

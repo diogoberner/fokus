@@ -14,6 +14,8 @@ let activeTask = ""
 
 addNewTaskButton.addEventListener("click", () => {
     taskForm.classList.toggle("hidden")
+    taskDescription.focus()
+    taskForm.scrollIntoView({ behavior: "smooth", block: "center" })
 })
 
 deleteCompletedTasksBtn.addEventListener("click", () => deleteCompletedTasks(tasksListDiv))
