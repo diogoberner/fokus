@@ -10,6 +10,7 @@ let timerText = startPauseButton.querySelector("span")
 let timerIcon = startPauseButton.querySelector(".app__card-primary-butto-icon")
 let isRunning = false
 let isPaused = false
+let isOver = false
 
 const startTimer = () => {
     timerText.textContent = "Pausar"
@@ -55,6 +56,7 @@ export const resetTimer = () => {
     timerText.textContent = "Recomeçar"
     isPaused = false
     isRunning = false
+    isOver = true
     clearRemainingTime()
     changeTimerIcon()
 
@@ -62,7 +64,7 @@ export const resetTimer = () => {
     timerDiv.textContent = "00:00"
 
     // Apenas quando o usuário clicar para recomeçar, o tempo inicial volta
-    startPauseButton.addEventListener("click", startTimer, { once: true })
+    startPauseButton.addEventListener("click", resetTimerUI, { once: true })
 };
 
 
@@ -76,6 +78,12 @@ export default function handleStartPauseContinue() {
     if (isPaused) {
         continueTimer()
         changeTimerIcon()
+        return
+    }
+
+    if (isOver) {
+        isOver = false
+        timerText.textContent = "Começar"
         return
     }
     startTimer()
