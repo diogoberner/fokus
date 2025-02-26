@@ -1,4 +1,5 @@
 import { clearRemainingTime, clearTimer, countdownTimer } from "./countdownTimer.js"
+import { resetTimerUI } from "./updateUI.js"
 
 const musicStart = new Audio("/sons/play.wav")
 const musicPause = new Audio("/sons/pause.mp3")
@@ -36,6 +37,8 @@ const continueTimer = () => {
     isRunning = true
 }
 
+
+
 const changeTimerIcon = () => {
     if (isRunning === false && isPaused === false) {
         timerIcon.src = "/imagens/play_arrow.png"
@@ -48,13 +51,20 @@ const changeTimerIcon = () => {
 }
 
 export const resetTimer = () => {
-    clearTimer()
-    timerText.textContent = "Começar"
+    clearTimer();
+    timerText.textContent = "Recomeçar"
     isPaused = false
     isRunning = false
     clearRemainingTime()
     changeTimerIcon()
-}
+
+    // Primeiro, exibir "00:00" temporariamente
+    timerDiv.textContent = "00:00"
+
+    // Apenas quando o usuário clicar para recomeçar, o tempo inicial volta
+    startPauseButton.addEventListener("click", startTimer, { once: true })
+};
+
 
 export default function handleStartPauseContinue() {
     if (isRunning) {

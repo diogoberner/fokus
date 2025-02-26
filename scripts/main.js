@@ -1,6 +1,6 @@
 import handleStartPauseContinue from "./timerManager.js"
 import toggleContext from "./toggleContext.js"
-import updateUI from "./updateUI.js"
+import { updateUI } from "./updateUI.js"
 
 const cardList = document.querySelector(".app__card-list")
 let currentButton = document.querySelector(".app__card-button.active")

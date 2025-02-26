@@ -1,5 +1,5 @@
 import { resetTimer } from "./timerManager.js"
-import updateUI from "./updateUI.js"
+import { updateUI } from "./updateUI.js"
 
 export default function toggleContext(cardList, currentButtonRef, currentContextRef) {
 
