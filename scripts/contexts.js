@@ -5,7 +5,7 @@ export const contexts = [
         img: "/imagens/foco.png",
         text: `Otimize sua produtividade,<br>
             <strong class="app__title-strong">mergulhe no que importa.</strong>`,
-        timer: [0, 5]
+        timer: [25, 0]
     },
     {
         type: "short",
