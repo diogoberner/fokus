@@ -16,6 +16,8 @@ export function countdownTimer(minutes, seconds, div) {
         let diff = endTime - Date.now()
         remainingTime = diff
 
+        console.log("Tempo restante: " + diff)
+
         let min = Math.floor(diff / (1000 * 60))
         let sec = Math.floor((diff % (1000 * 60)) / 1000)
 
@@ -27,6 +29,7 @@ export function countdownTimer(minutes, seconds, div) {
             const endTimeEvent = new CustomEvent("FokusTimer")
             if (getCurrentContext() === "foco") {
                 document.dispatchEvent(endTimeEvent)
+                clearRemainingTime()
                 restartTimer()
             }
             return

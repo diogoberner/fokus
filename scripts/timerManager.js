@@ -17,6 +17,7 @@ const startTimer = () => {
     musicStart.play()
     const currentTime = timerDiv.textContent
     const [minutes, seconds] = currentTime.split(":").map(Number)
+    console.log(minutes, seconds)
     countdownTimer(minutes, seconds, timerDiv)
     isRunning = true
     isPaused = false
@@ -37,8 +38,6 @@ const continueTimer = () => {
     isPaused = false
     isRunning = true
 }
-
-
 
 const changeTimerIcon = () => {
     if (isRunning === false && isPaused === false) {
