@@ -51,22 +51,27 @@ const changeTimerIcon = () => {
     }
 }
 
-export const resetTimer = () => {
+const resetTimer = () => {
     clearTimer();
-    timerText.textContent = "Recomeçar"
+    timerText.textContent = "Começar"
     isPaused = false
     isRunning = false
-    isOver = true
     clearRemainingTime()
     changeTimerIcon()
 
-    // Primeiro, exibir "00:00" temporariamente
-    timerDiv.textContent = "00:00"
 
-    // Apenas quando o usuário clicar para recomeçar, o tempo inicial volta
-    startPauseButton.addEventListener("click", resetTimerUI, { once: true })
-};
+}
 
+const restartTimer = () => {
+    debugger
+    isOver = true
+    isPaused = false
+    isRunning = false
+    timerText.textContent = "Reiniciar"
+    changeTimerIcon()
+    // startPauseButton.addEventListener("click", resetTimerUI, { once: true })
+
+}
 
 export default function handleStartPauseContinue() {
     if (isRunning) {
@@ -84,8 +89,12 @@ export default function handleStartPauseContinue() {
     if (isOver) {
         isOver = false
         timerText.textContent = "Começar"
+        resetTimerUI()
         return
     }
+
     startTimer()
     changeTimerIcon()
 }
+
+export { resetTimer, restartTimer }

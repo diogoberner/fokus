@@ -26,7 +26,7 @@ const getCurrentContext = () => {
 
 const resetTimerUI = () => {
     const currentContext = getCurrentContext()
-    const contextData = contexts.find((context) => context.type === currentContext)
+    const contextData = contexts.find((context) => context.attribute === currentContext)
 
     if (contextData) {
         const [minutes, seconds] = contextData.timer
